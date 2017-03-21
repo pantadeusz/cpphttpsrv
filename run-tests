@@ -1,0 +1,20 @@
+#!/bin/bash
+
+REPORTS=()
+killall ./thttp
+make
+./thttp &
+PIDT="$!"
+echo $PIDT
+VAL="$(wget -q -O - http://localhost:8090)" 2> /dev/null
+if [ "$?" != "0" ]; then exit 1; fi
+if [ "$(echo $VAL | grep hello)" = "" ]; then exit 1; fi
+REPORTS[0]="OK: wget existing"
+VAL="$(wget -O - http://localhost:8090/somethingnotfound 2>&1)" 2> /dev/null
+if [ "$?" = "0" ]; then exit 1; fi
+if [ "$(echo $VAL 2>&1| grep 404)" = "" ]; then exit 1; fi
+REPORTS[1]="OK: wget non existing"
+
+for i in "${REPORTS[@]}"; do echo "$i"; done
+
+kill $PIDT

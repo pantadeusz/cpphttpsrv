@@ -1,0 +1,33 @@
+<%@args -lm %>
+<%! 
+
+using namespace std;
+int i = 0; 
+
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>cpphttpsrv - the demo page</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<h2>The sample CSP page.</h2>
+
+<% 
+auto &s = req.getSession( true );
+s["counter"] = to_string(((s["counter"].length()>0)?stoi( s["counter"].c_str() ):-1)+1 );
+i++; 
+%>
+<p>
+Hello World, the counter is:  <%= i %>
+</p>
+<p>
+Session counter is: <%= s["counter"] %>
+</p>
+
+</body>
+
+</html> 
