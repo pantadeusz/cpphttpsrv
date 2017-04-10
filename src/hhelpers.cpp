@@ -44,8 +44,52 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <iostream>
 
 namespace puzniakowski {
+
+std::vector<char> base64tobin(const std::string &s) {
+  std::vector<char> ret;
+  ret.reserve(s.length());
+  for (int i = s.find(',') + 1; i < s.size() - 3; i += 4) {
+    unsigned int val = 0;
+    int pads = 0;
+    int v = 0;
+    for (int j = 0; j < 4; j++) {
+      int c = s[i + j];
+      v = 0;
+      if ((c >= 'A') && (c <= 'Z'))
+        v = c - 'A';
+      else if ((c >= 'a') && (c <= 'z'))
+        v = c - 'a' + 26;
+      else if ((c >= '0') && (c <= '9'))
+        v = c - '0' + 52;
+      else if (c == '+')
+        v = 62;
+      else if (c == '/')
+        v = 63;
+      else if (c == '=')
+        pads++;
+      val = (val << 6) + v;
+    }
+    ret.push_back((val >> 16) & 0x0ff);
+    if (pads < 2) ret.push_back((val >> 8) & 0x0ff);
+    if (pads <= 3) ret.push_back((val >> 0) & 0x0ff);
+  }
+  return ret;
+}
+
+std::string filenameProtect(const std::string &s) {
+  std::string projname = s;
+  if (projname[0] == '/') projname = projname.substr(1);
+  for (std::size_t found = projname.find("../"); found != std::string::npos;
+        found = projname.find("../", found)) {
+    projname[found] = '_';
+    projname[found + 1] = '_';
+    projname[found + 2] = '_';
+  }
+  return projname;
+}
 
 
 unsigned long int getFileModTime(const std::string &fname) {

@@ -235,9 +235,9 @@ int Http::acceptConnection() {
 			std::stringstream ss( trim( lines[i] ) );
 			std::string header;
 			ss >> header;
-			if ( header == std::string( "Host:" ) ) {
+			if (std::regex_match ( header, std::regex( "^Host.*", std::regex_constants::icase ) )) { //( header == std::string( "Host:" ) ) {
 				ss >> requ.hostname;
-			} else if ( header == std::string( "Cookie:" ) ) {
+			} else if (std::regex_match ( header, std::regex( "^Cookie.*", std::regex_constants::icase ) )) { //( header == std::string( "Cookie:" ) ) {
 				std::string sessionString;
 				{
 				auto s = lines[i];
@@ -259,13 +259,13 @@ int Http::acceptConnection() {
 				if (sessionString.size() > 2) {
 					requ.setSessionId( sessionString );
 				} 
-			} else if (header == "Content-Length:") {
+			} else if  (std::regex_match ( header, std::regex( "^Content-Length.*", std::regex_constants::icase ) )) {// (header == "Content-Length:") {
 				ss >> requ.contentLength;
 				if (req.contentLength > 1024*1024*256) {
 					errlog( "req.contentLength > 1024*1024*256");
 					return -1;
 				}
-			} else if (header == "Content-Type:") {
+			} else if (std::regex_match ( header, std::regex( "^Content-Type.*", std::regex_constants::icase ) )) {// (header == "Content-Type:") {
 				ss >> requ.mime;
 				for (int i = 0; i < requ.mime.length(); i++) {
 					if (requ.mime[i] == ';') {requ.mime = requ.mime.substr(0,i); break;}
@@ -273,7 +273,7 @@ int Http::acceptConnection() {
 			}
 		}
 		// read the contents of the request
-		for (int i = requ.content.size(); i < requ.contentLength && (( r=read( requ.s, byteRead, min((size_t)1024,requ.contentLength-i) ) ) > 0 ); i+=r) {
+		for (int i = requ.content.size(); i < requ.contentLength && (( r=read( requ.s, byteRead, min((size_t)1024,requ.contentLength-i) ) ) >= 0 ); i+=r) {
 			requ.content.insert(requ.content.end(),byteRead, byteRead+r);
 		}
 		auto idx = requ.queryString.find('?');

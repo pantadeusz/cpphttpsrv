@@ -46,6 +46,11 @@
 
 namespace puzniakowski {
 
+
+std::vector<char> base64tobin(const std::string &s);
+std::string filenameProtect(const std::string &s);
+
+
   // after http://stackoverflow.com/questions/236129/split-a-string-in-c
   std::vector<std::string> &split( const std::string &s, const char delim, std::vector<std::string> &elems );
 
