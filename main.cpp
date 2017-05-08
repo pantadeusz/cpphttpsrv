@@ -70,29 +70,6 @@ int main ( int argc, char **argv ) {
 		res.getWriter() << s.str();
 	} );
 
-	// REST API example:
-	srv.get( "/wifi.*",[=]( Request &req, Response &res )->void {
-		try {
-			DynamicCppHandler dfh("rest/wifi.cpp");
-			dfh.getHandler()(req,res);
-		} catch (const std::exception& e) {
-			res.getWriter() << e.what();
-		} catch (...) {
-			sfh( req, res );
-		}
-	} );
-	srv.post( "/wifi.*",[=]( Request &req, Response &res )->void {
-		try {
-			DynamicCppHandler dfh("rest/wifi.cpp");
-			dfh.getHandler()(req,res);
-		} catch (const std::exception& e) {
-			res.getWriter() << e.what();
-		} catch (...) {
-			sfh( req, res );
-		}
-	} );
-
-
 	// handling dynamic pages from www directory.- GET method
 	srv.get( "/.*csp", getDynamicFileHandler("www/",1,converters::dynamicPartConverterCsp) );
 	// handling dynamic pages from www directory. - POST method

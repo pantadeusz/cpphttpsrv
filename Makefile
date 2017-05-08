@@ -4,7 +4,7 @@ VER_MAJOR=0
 VER_MINOR=0
 CPPFLAGS= -fPIC -pthread -std=c++11 -O2 -I./src -fopenmp -DVER=\"$(VER_MAJOR).$(VER_MINOR).$(VER)\"
 CLIBS= -std=c++11 -fopenmp -ldl -L./build -rdynamic
-BASEOBJS := build/http.o build/mime.o build/dhandler.o build/hhelpers.o build/json11.o
+BASEOBJS := build/http.o build/mime.o build/dhandler.o build/hhelpers.o
 
 
 ##################  CONFIG #################
@@ -19,13 +19,11 @@ OBJS := $(APPOBJS) $(BASEOBJS)
 all: libcpphttpsrv.a libcpphttpsrv.so $(APPNAME)  build/test-mime
 
 dist: all
-	mkdir -p usr/include/cpphttpsrv/json11
+	mkdir -p usr/include/cpphttpsrv
 	cp src/*.h* usr/include/cpphttpsrv/
-	cp src/json11/*.h* usr/include/cpphttpsrv/
 	mkdir -p usr/lib
-	mkdir -p usr/share/doc/cpphttpsrv/json11
+	mkdir -p usr/share/doc/cpphttpsrv
 	cp LICENSE README* usr/share/doc/cpphttpsrv/
-	cp src/json11/* usr/share/doc/cpphttpsrv/json11/
 	cp libcpphttpsrv.* usr/lib/
 	tar -cjvf cpphttpsrv-$(VER_MAJOR).$(VER_MINOR).$(VER).tar.bz2 usr
 	rm -R usr
@@ -45,9 +43,6 @@ $(APPNAME): $(OBJS)
 build/%.o : src/%.cpp
 	@echo $<
 	gcc -c $(CPPFLAGS) $< -o $@
-
-build/json11.o: src/json11/json11.cpp
-	gcc -c $(CPPFLAGS) -Isrc/json11 $< -o $@
 
 %.o : %.cpp
 	gcc -c $(CPPFLAGS) $<
