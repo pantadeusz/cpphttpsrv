@@ -1,5 +1,7 @@
 # cpphttpsrv
 
+![travis ci](https://travis-ci.org/pantadeusz/cpphttpsrv.svg?branch=master "travis results")
+
 ### by Tadeusz Puźniakowski, 2016
 
 Very simple implementation of HTTP server allowing you to write your code in C++11.
