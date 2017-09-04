@@ -1,5 +1,9 @@
 # cpphttpsrv
 
+
+## WARNING : My new approach to the thin c++11 http server is here [mhttp](https://github.com/pantadeusz/mhttp)
+
+
 ![travis ci](https://travis-ci.org/pantadeusz/cpphttpsrv.svg?branch=master "travis results")
 
 ### by Tadeusz Puźniakowski, 2016
