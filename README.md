@@ -108,4 +108,4 @@ and run by:
 
 ### donations
 
-I accept donations in BTC at 13CfATaTXvh5aVn4cfcgGHEo67rtuwVqnF
+I accept donations in BTC at 1cezmsed5u3cWR2JsjzPp9gvHjzrArDiA
