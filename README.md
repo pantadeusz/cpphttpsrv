@@ -104,8 +104,3 @@ and run by:
 ./start.sh
 ```
 
-
-
-### donations
-
-I accept donations in BTC at 1cezmsed5u3cWR2JsjzPp9gvHjzrArDiA
